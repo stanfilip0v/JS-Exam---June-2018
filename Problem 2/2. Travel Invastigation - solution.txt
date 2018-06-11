@@ -1,0 +1,70 @@
+function findValidAndInvalid(input) {
+    let companies = input.shift();
+    let delimiter = input.shift();
+    let valid = [];
+    let invalid = [];
+
+    companies = companies.split(`${delimiter}`);
+
+    for (let i = 0; i < input.length; i++) {
+        input[i] = input[i].toLowerCase();
+    }
+
+    fillValidAndInvalid (valid, invalid, companies, input);
+    print (valid, invalid);
+
+
+    function fillValidAndInvalid (valid, invalid, companies, input) {
+        for (let string of input) {
+            let contains = true;
+
+            for (let company of companies) {
+                if (!string.includes(company)) {
+                    invalid.push(string);
+                    contains = false;
+                    break;
+                }
+            }
+
+            if (contains === true) {
+                valid.push(string);
+            }
+        }
+    }
+
+
+    function print (valid, invalid) {
+        if (valid.length > 0 && invalid.length > 0) {
+            let i = 0;
+            console.log(`ValidSentences`);
+            for (let sent of valid) {
+                i++;
+                console.log(`${i}. ${sent}`);
+            }
+            console.log('='.repeat(30));
+
+            let j = 0;
+            console.log(`InvalidSentences`);
+            for (let sent of invalid) {
+                j++;
+                console.log(`${j}. ${sent}`);
+            }
+        }
+        else if (valid.length > 0 && invalid.length === 0) {
+            let i = 0;
+            console.log(`ValidSentences`);
+            for (let sent of valid) {
+                i++;
+                console.log(`${i}. ${sent}`);
+            }
+        }
+        else if (valid.length === 0 && invalid.length > 0) {
+            let j = 0;
+            console.log(`InvalidSentences`);
+            for (let sent of invalid) {
+                j++;
+                console.log(`${j}. ${sent}`);
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+function calculateMoney(input) {
+    let specializedCounter = 0;
+    let clumsyCounter = 0;
+    let totalMoney = 0;
+
+    for (let string of input) {
+        let profession = string.split(' : ')[0];
+        let money = Number(string.split(' : ')[1]);
+
+        if (profession === 'Programming' || profession === 'Hardware maintenance' || profession === 'Cooking' || profession === 'Translating' || profession === 'Designing'){
+            if (money >= 200) {
+                specializedCounter++;
+                money *= 0.80;
+                totalMoney += money;
+                if (specializedCounter % 2 === 0) {
+                    totalMoney += 200;
+                }
+            }
+        }
+        else if (profession === 'Driving' || profession === 'Managing' || profession === 'Fishing' || profession === 'Gardening') {
+            totalMoney += money;
+        }
+        else {
+            clumsyCounter++;
+            if (clumsyCounter % 2 === 0) {
+                money *= 0.95;
+            }
+            else if (clumsyCounter % 3 === 0) {
+                money *= 0.90;
+            }
+            totalMoney += money;
+        }
+    }
+
+
+    console.log(`Final sum: ${totalMoney.toFixed(2)}`);
+    if (totalMoney > 1000){
+        console.log(`Mariyka earned ${(totalMoney - 1000).toFixed(2)} gold more.`);
+    }
+    else if (totalMoney < 1000) {
+        console.log(`Mariyka need to earn ${(1000 - totalMoney).toFixed(2)} gold more to continue in the next task.`)
+    }
+}

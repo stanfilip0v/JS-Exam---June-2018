@@ -1,0 +1,43 @@
+function organize(input) {
+    let countries = fillCountries(input);
+    printResult(countries);
+
+    function fillCountries (input) {
+        let countries = {};
+        for (let string of input) {
+            let country = string.split(' > ')[0];
+            let city = string.split(' > ')[1].replace(string.split(' > ')[1][0], string.split(' > ')[1][0].toUpperCase());
+            let price = Number(string.split(' > ')[2]);
+
+            if (!countries.hasOwnProperty(country)) {
+                countries[country] = {};
+                countries[country][city] = price;
+            }
+            else {
+                if (!countries[country].hasOwnProperty(city)) {
+                    countries[country][city] = price;
+                }
+                else {
+                    if (price <= countries[country][city]) {
+                        countries[country][city] = price;
+                    }
+                }
+            }
+        }
+
+        return countries;
+    }
+
+    function printResult (countries) {
+        let sortedCountries = Object.keys(countries).sort((a, b) => a.localeCompare(b));
+        for (let sortedCountry of sortedCountries) {
+            let sortedCities = Object.keys(countries[sortedCountry]).sort((a, b) => countries[sortedCountry][a] - countries[sortedCountry][b] || a.localeCompare(b));
+            let helper = [];
+            for (let sortedCity of sortedCities) {
+                let str = `${sortedCity} -> ${countries[sortedCountry][sortedCity]}`;
+                helper.push(str);
+            }
+            console.log(`${sortedCountry} -> ${helper.join(' ')}`);
+        }
+    }
+}

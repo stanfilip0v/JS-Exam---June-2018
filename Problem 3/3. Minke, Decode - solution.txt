@@ -1,0 +1,56 @@
+function decode(input) {
+    let startIndex = Number(input[0]);
+    let endIndex = Number(input[1]);
+    let replacer = input[2];
+    let message = input[3];
+
+    let countryPattern = new RegExp('([A-Z][a-z]+[A-Z])');
+    let numberPattern = new RegExp('([0-9]{3}(?:\\.\\d+)*)', 'g');
+
+    let countryMatch = message.match(countryPattern);
+    let numberMatch = message.match(numberPattern);
+
+    let city = properCasingCity(numberMatch);
+    let country = properCasingCountry(countryMatch, startIndex, endIndex, replacer);
+
+    console.log(`${country} => ${city}`);
+
+    function properCasingCountry (countryMatch, startIndex, endIndex, replacer) {
+        let country = countryMatch[1].split('');
+        country.splice(startIndex, endIndex - startIndex + 1, replacer);
+        country = country.join('');
+
+        let countryArr = country.split('');
+        for (let i = 0; i < countryArr.length; i++) {
+            if (i === 0) {
+                countryArr[i] = countryArr[i].toUpperCase();
+            }
+            else {
+                countryArr[i] = countryArr[i].toLowerCase();
+            }
+        }
+        country = countryArr.join('');
+        return country;
+    }
+
+    function properCasingCity (numberMatch) {
+        let city = '';
+        for (let num of numberMatch) {
+            let n = Math.ceil(Number(num));
+            city += String.fromCharCode(n);
+        }
+
+        let cityArr = city.split('');
+        for (let i = 0; i < cityArr.length; i++) {
+            if (i === 0) {
+                cityArr[i] = cityArr[i].toUpperCase();
+            }
+            else {
+                cityArr[i] = cityArr[i].toLowerCase();
+            }
+        }
+
+        city = cityArr.join('');
+        return city;
+    }
+}
